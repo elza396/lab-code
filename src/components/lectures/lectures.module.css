@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: #101010;
+}
+.title {
+    font-size: 26px;
+    line-height: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.lecture {
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding: 10px;
+    transition: all 0.2s ease-in-out;
+}
+.lecture:hover {
+    background-color: white;
+}
+.name {
+    font-size: 20px;
+    line-height: 24px;
+}
+.author {
+    font-size: 14px;
+    color: #4e4e4e;
+}
+.date {
+    text-align: right;
+}
