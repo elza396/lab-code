@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styles from './lecture.module.css';
 import positiveSmiley from './../../res/images/positive.svg';
 import neutralSmiley from './../../res/images/neutral.svg';
@@ -11,7 +11,7 @@ export function Lecture() {
     const {lectureId} = useParams();
     const [lecture, setLecture] = useState(null);
 
-    useEffect(() => {
+    const loadLecture = useCallback((lectureId) => {
         const docRef = DB.collection("lectures").doc(lectureId);
 
         docRef.get().then((doc) => {
@@ -24,19 +24,36 @@ export function Lecture() {
         }).catch((error) => {
             console.log("Error getting document:", error);
         });
-    }, [lectureId])
+    },[])
 
+    useEffect(() => {
+        loadLecture(lectureId);
+    }, [lectureId, loadLecture])
+
+    console.log(lecture);
     if (!lecture) {
         return null;
+    }
+
+    function clickSmiley(votesType) {
+        DB.collection("lectures").doc(lectureId).update({
+            [votesType]: ++lecture[votesType]
+        })
+            .then(() => {
+                loadLecture(lectureId);
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
     }
 
     return (
         <div>
             <p className={styles.name}>{lecture.name}</p>
             <div className={styles.smileys}>
-                <img className={styles.smiley} src={positiveSmiley} alt="positive"/>
-                <img className={styles.smiley} src={neutralSmiley} alt="neutral"/>
-                <img className={styles.smiley} src={negativeSmiley} alt="negative"/>
+                <img onClick={() => clickSmiley('positiveVotes')} className={styles.smiley} src={positiveSmiley} alt="positive"/>
+                <img onClick={() => clickSmiley('neutralVotes')} className={styles.smiley} src={neutralSmiley} alt="neutral"/>
+                <img onClick={() => clickSmiley('negativeVotes')} className={styles.smiley} src={negativeSmiley} alt="negative"/>
             </div>
             <div className={styles.statistic}>
                 <p className={styles.text}>Статистика</p>
