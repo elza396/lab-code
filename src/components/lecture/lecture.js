@@ -11,6 +11,8 @@ export function Lecture() {
     const {lectureId} = useParams();
     const [lecture, setLecture] = useState(null);
 
+    const isVoted = document.cookie.includes(lectureId);
+
     const loadLecture = useCallback((lectureId) => {
         const docRef = DB.collection("lectures").doc(lectureId);
 
@@ -30,17 +32,21 @@ export function Lecture() {
         loadLecture(lectureId);
     }, [lectureId, loadLecture])
 
-    console.log(lecture);
     if (!lecture) {
         return null;
     }
 
     function clickSmiley(votesType) {
+        if (isVoted) {
+            return;
+        }
+
         DB.collection("lectures").doc(lectureId).update({
             [votesType]: ++lecture[votesType]
         })
             .then(() => {
                 loadLecture(lectureId);
+                document.cookie = `${lectureId}=1`;
             })
             .catch((error) => {
                 console.error("Error updating document: ", error);
@@ -50,7 +56,7 @@ export function Lecture() {
     return (
         <div>
             <p className={styles.name}>{lecture.name}</p>
-            <div className={styles.smileys}>
+            <div className={`${styles.smileys} ${isVoted && styles.disabled}`}>
                 <img onClick={() => clickSmiley('positiveVotes')} className={styles.smiley} src={positiveSmiley} alt="positive"/>
                 <img onClick={() => clickSmiley('neutralVotes')} className={styles.smiley} src={neutralSmiley} alt="neutral"/>
                 <img onClick={() => clickSmiley('negativeVotes')} className={styles.smiley} src={negativeSmiley} alt="negative"/>
