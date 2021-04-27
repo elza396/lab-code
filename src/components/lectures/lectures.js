@@ -22,12 +22,10 @@ export function Lectures() {
             <p className={styles.title}>Лекции</p>
             {lectures.map((lec) => {
                 return (
-                    <Link to={`lectures/${lec.id}`} key={lec.id}>
-                        <div className={styles.lecture}>
-                            <p className={styles.name}>{lec.name}</p>
-                            <p className={styles.author}>{lec.author}</p>
-                            <p className={styles.date}>{lec.date}</p>
-                        </div>
+                    <Link to={`lectures/${lec.id}`} key={lec.id} className={styles.lecture}>
+                        <p className={styles.name}>{lec.name}</p>
+                        <p className={styles.author}>{lec.author}</p>
+                        <p className={styles.date}>{lec.date}</p>
                     </Link>
                 )
             })}

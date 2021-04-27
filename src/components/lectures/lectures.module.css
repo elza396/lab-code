@@ -1,9 +1,3 @@
-* {
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-    color: #101010;
-}
 .title {
     font-size: 26px;
     line-height: 28px;
@@ -16,6 +10,8 @@
     margin-bottom: 15px;
     padding: 10px;
     transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    display: block;
 }
 .lecture:hover {
     background-color: white;

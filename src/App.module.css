@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: #101010;
+}
 .app {
     margin: 50px auto;
     min-height: 600px;
